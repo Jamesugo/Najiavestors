@@ -4,15 +4,17 @@ import { useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
 import { ShieldCheck, User, Building2, Lock, Mail, ArrowRight } from "lucide-react";
+import { useAuth, UserRole } from "@/lib/auth-context";
 
 export default function SignInPage() {
   const router = useRouter();
-  const [role, setRole] = useState<"USER" | "BUSINESS_OWNER" | "ADMIN">("USER");
+  const { loginAs } = useAuth();
+  const [role, setRole] = useState<UserRole>("USER");
   const [email, setEmail] = useState("patron@najiavestors.ng");
   const [password, setPassword] = useState("password123");
   const [loading, setLoading] = useState(false);
 
-  const handleRolePreset = (selectedRole: "USER" | "BUSINESS_OWNER" | "ADMIN") => {
+  const handleRolePreset = (selectedRole: UserRole) => {
     setRole(selectedRole);
     if (selectedRole === "ADMIN") {
       setEmail("admin@najiavestors.ng");
@@ -27,6 +29,7 @@ export default function SignInPage() {
     e.preventDefault();
     setLoading(true);
     setTimeout(() => {
+      loginAs(role);
       setLoading(false);
       if (role === "ADMIN") {
         router.push("/admin");
@@ -35,7 +38,7 @@ export default function SignInPage() {
       } else {
         router.push("/");
       }
-    }, 600);
+    }, 400);
   };
 
   return (
@@ -63,7 +66,7 @@ export default function SignInPage() {
           {/* Role Preset Selector */}
           <div className="mb-6">
             <label className="block text-[10px] font-bold text-slate-400 uppercase tracking-wider mb-2">
-              Select Demo Role
+              Select Demo Role (One-Click)
             </label>
             <div className="grid grid-cols-3 gap-2">
               <button

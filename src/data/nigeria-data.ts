@@ -117,3 +117,4 @@ export function isValidNigerianPhone(phone: string): boolean {
   if (digits.startsWith("0") && digits.length === 11) return true;
   return false;
 }
+

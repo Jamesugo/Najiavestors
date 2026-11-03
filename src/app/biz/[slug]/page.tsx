@@ -392,3 +392,4 @@ export default async function BusinessDetailPage({ params }: BusinessPageProps) 
     </div>
   );
 }
+
