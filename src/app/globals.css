@@ -1,26 +1,107 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  /* Clean, trustworthy palette */
+  --bg-main: #F8FAFC;
+  --bg-card: #FFFFFF;
+  --primary-green: #0B6E4F;
+  --primary-green-hover: #08563D;
+  --primary-green-light: #E8F5EE;
+  --accent-gold: #F5B700;
+  --accent-gold-hover: #D9A200;
+  --text-charcoal: #1F2937;
+  --text-muted: #4B5563;
+  --border-subtle: #E2E8F0;
+  
+  --background: var(--bg-main);
+  --foreground: var(--text-charcoal);
+}
+
+.dark {
+  --bg-main: #0B1117;
+  --bg-card: #151E28;
+  --primary-green: #10B981;
+  --primary-green-hover: #059669;
+  --primary-green-light: #064E3B;
+  --accent-gold: #FBBF24;
+  --accent-gold-hover: #F59E0B;
+  --text-charcoal: #F9FAFB;
+  --text-muted: #9CA3AF;
+  --border-subtle: #263445;
+  
+  --background: var(--bg-main);
+  --foreground: var(--text-charcoal);
 }
 
 @theme inline {
-  --color-background: var(--background);
-  --color-foreground: var(--foreground);
-  --font-sans: var(--font-geist-sans);
-  --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
+  --color-primary-green: var(--primary-green);
+  --color-primary-hover: var(--primary-green-hover);
+  --color-primary-light: var(--primary-green-light);
+  --color-accent-gold: var(--accent-gold);
+  --color-accent-hover: var(--accent-gold-hover);
+  --color-charcoal: var(--text-charcoal);
+  --color-muted: var(--text-muted);
+  --color-card: var(--bg-card);
+  --color-border-subtle: var(--border-subtle);
 }
 
 body {
-  background: var(--background);
+  background-color: var(--background);
   color: var(--foreground);
-  font-family: Arial, Helvetica, sans-serif;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+  min-height: 100vh;
+}
+
+/* Card hover lift & press feedback */
+.card-hover-lift {
+  transition: transform 0.2s cubic-bezier(0.16, 1, 0.3, 1), box-shadow 0.2s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.card-hover-lift:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px -5px rgba(0, 0, 0, 0.08), 0 8px 10px -6px rgba(0, 0, 0, 0.04);
+}
+
+.btn-press {
+  transition: transform 0.1s ease, background-color 0.15s ease;
+}
+.btn-press:active {
+  transform: scale(0.97);
+}
+
+/* Accessible focus ring */
+a:focus-visible, button:focus-visible, input:focus-visible, select:focus-visible, textarea:focus-visible {
+  outline: 2px solid var(--primary-green);
+  outline-offset: 2px;
+}
+
+/* Star rating color */
+.star-gold {
+  color: var(--accent-gold);
+  fill: var(--accent-gold);
+}
+
+/* Low-bandwidth friendly skeleton animation */
+@keyframes shimmer {
+  100% {
+    transform: translateX(100%);
+  }
+}
+.skeleton-shimmer {
+  position: relative;
+  overflow: hidden;
+  background-color: #E2E8F0;
+}
+.skeleton-shimmer::after {
+  position: absolute;
+  top: 0; right: 0; bottom: 0; left: 0;
+  transform: translateX(-100%);
+  background-image: linear-gradient(
+    90deg,
+    rgba(255, 255, 255, 0) 0,
+    rgba(255, 255, 255, 0.2) 20%,
+    rgba(255, 255, 255, 0.5) 60%,
+    rgba(255, 255, 255, 0)
+  );
+  animation: shimmer 1.8s infinite;
+  content: '';
 }

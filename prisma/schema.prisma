@@ -1,0 +1,154 @@
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+enum Role {
+  USER
+  BUSINESS_OWNER
+  ADMIN
+}
+
+enum ReviewStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+enum PriceTier {
+  BUDGET       // ₦
+  MODERATE     // ₦₦
+  EXPENSIVE    // ₦₦₦
+  LUXURY       // ₦₦₦₦
+}
+
+enum ClaimStatus {
+  PENDING
+  APPROVED
+  REJECTED
+}
+
+model User {
+  id            String         @id @default(cuid())
+  name          String?
+  email         String         @unique
+  emailVerified DateTime?
+  passwordHash  String?
+  image         String?
+  role          Role           @default(USER)
+  businesses    Business[]     @relation("OwnerBusinesses")
+  reviews       Review[]
+  helpfulVotes  HelpfulVote[]
+  reports       Report[]
+  claimRequests ClaimRequest[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+}
+
+model Category {
+  id          String     @id @default(cuid())
+  slug        String     @unique
+  name        String
+  icon        String     // Lucide icon identifier
+  description String?
+  businesses  Business[]
+  createdAt   DateTime   @default(now())
+  updatedAt   DateTime   @updatedAt
+}
+
+model Business {
+  id            String         @id @default(cuid())
+  slug          String         @unique
+  name          String
+  description   String
+  categoryId    String
+  category      Category       @relation(fields: [categoryId], references: [id])
+  address       String
+  city          String
+  state         String
+  lga           String
+  latitude      Float?
+  longitude     Float?
+  phone         String
+  whatsapp      String?
+  website       String?
+  priceTier     PriceTier      @default(MODERATE)
+  verified      Boolean        @default(false)
+  claimed       Boolean        @default(false)
+  ownerId       String?
+  owner         User?          @relation("OwnerBusinesses", fields: [ownerId], references: [id])
+  photos        String[]       @default([])
+  hours         Json?          // e.g. { "mon": "8:00 AM - 6:00 PM", ... }
+  rating        Float          @default(0)
+  reviewCount   Int            @default(0)
+  reviews       Review[]
+  claimRequests ClaimRequest[]
+  createdAt     DateTime       @default(now())
+  updatedAt     DateTime       @updatedAt
+
+  @@index([state, lga])
+  @@index([categoryId])
+  @@index([rating])
+  @@index([city])
+}
+
+model Review {
+  id           String        @id @default(cuid())
+  rating       Int           // 1-5
+  content      String
+  photos       String[]      @default([])
+  userId       String
+  user         User          @relation(fields: [userId], references: [id], onDelete: Cascade)
+  businessId   String
+  business     Business      @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  helpfulCount Int           @default(0)
+  helpfulVotes HelpfulVote[]
+  reports      Report[]
+  status       ReviewStatus  @default(APPROVED)
+  createdAt    DateTime      @default(now())
+  updatedAt    DateTime      @updatedAt
+
+  @@unique([userId, businessId])
+  @@index([businessId, status])
+}
+
+model HelpfulVote {
+  id        String   @id @default(cuid())
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  reviewId  String
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@unique([userId, reviewId])
+}
+
+model Report {
+  id        String   @id @default(cuid())
+  reason    String
+  details   String?
+  reviewId  String
+  review    Review   @relation(fields: [reviewId], references: [id], onDelete: Cascade)
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resolved  Boolean  @default(false)
+  createdAt DateTime @default(now())
+}
+
+model ClaimRequest {
+  id            String      @id @default(cuid())
+  businessId    String
+  business      Business    @relation(fields: [businessId], references: [id], onDelete: Cascade)
+  userId        String
+  user          User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  proofDocument String?
+  businessPhone String
+  status        ClaimStatus @default(PENDING)
+  notes         String?
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+}
