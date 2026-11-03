@@ -1,6 +1,5 @@
 import Link from "next/link";
 import {
-  Filter,
   SlidersHorizontal,
   MapPin,
   Search as SearchIcon,
@@ -8,10 +7,10 @@ import {
   ShieldCheck,
   Map as MapIcon,
   List as ListIcon,
-  ChevronDown,
 } from "lucide-react";
 import { BusinessCard } from "@/components/ui/BusinessCard";
 import { SearchBar } from "@/components/ui/SearchBar";
+import { MobileFilterDrawer } from "@/components/search/MobileFilterDrawer";
 import { getBusinesses, getCategoriesWithCounts } from "@/lib/services/business-service";
 import { NIGERIAN_STATES, PRICE_TIERS } from "@/data/nigeria-data";
 
@@ -66,56 +65,63 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
   const availableLgas = selectedState !== "all" && NIGERIAN_STATES[selectedState] ? NIGERIAN_STATES[selectedState] : [];
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-950 pb-20">
+    <div className="min-h-screen bg-[#F8FAFC] dark:bg-slate-950 pb-24 md:pb-20">
       
       {/* Top Search Bar Header */}
-      <div className="border-b border-slate-200 bg-white py-4 px-4 sm:px-6 lg:px-8 dark:border-slate-800 dark:bg-slate-900 sticky top-16 z-30 shadow-xs">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-4">
+      <div className="border-b border-slate-200 bg-white py-3 sm:py-4 px-3 sm:px-6 lg:px-8 dark:border-slate-800 dark:bg-slate-900 sticky top-14 sm:top-16 z-30 shadow-xs">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row items-center gap-3 sm:gap-4">
           <div className="w-full flex-1">
             <SearchBar initialQuery={query} initialLocation={location} compact />
           </div>
 
           {/* Quick Stats & View Switcher */}
-          <div className="flex items-center justify-between w-full md:w-auto gap-4">
+          <div className="flex items-center justify-between w-full md:w-auto gap-3">
             <span className="text-xs font-medium text-slate-500 dark:text-slate-400">
-              <strong className="text-slate-900 dark:text-white">{total}</strong> results found
+              <strong className="text-slate-900 dark:text-white">{total}</strong> places found
             </span>
 
-            {/* List / Map toggle */}
-            <div className="flex items-center rounded-lg border border-slate-200 bg-slate-100 p-0.5 dark:border-slate-700 dark:bg-slate-800">
-              <Link
-                href={`/search?${new URLSearchParams({ ...params, view: "list" }).toString()}`}
-                className={`flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-semibold transition-all ${
-                  viewMode === "list"
-                    ? "bg-white text-slate-900 shadow-xs dark:bg-slate-700 dark:text-white"
-                    : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                }`}
-              >
-                <ListIcon className="h-3.5 w-3.5" />
-                <span>List</span>
-              </Link>
-              <Link
-                href={`/search?${new URLSearchParams({ ...params, view: "map" }).toString()}`}
-                className={`flex items-center gap-1 rounded-md px-3 py-1.5 text-xs font-semibold transition-all ${
-                  viewMode === "map"
-                    ? "bg-white text-slate-900 shadow-xs dark:bg-slate-700 dark:text-white"
-                    : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
-                }`}
-              >
-                <MapIcon className="h-3.5 w-3.5" />
-                <span>Map</span>
-              </Link>
+            <div className="flex items-center gap-2">
+              {/* Mobile Filter Drawer Trigger */}
+              <MobileFilterDrawer categories={categories} currentParams={params} />
+
+              {/* List / Map toggle */}
+              <div className="flex items-center rounded-xl border border-slate-200 bg-slate-100 p-0.5 dark:border-slate-700 dark:bg-slate-800">
+                <Link
+                  href={`/search?${new URLSearchParams({ ...params, view: "list" }).toString()}`}
+                  className={`flex items-center gap-1 rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-semibold transition-all ${
+                    viewMode === "list"
+                      ? "bg-white text-slate-900 shadow-xs dark:bg-slate-700 dark:text-white"
+                      : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  }`}
+                  aria-label="List View"
+                >
+                  <ListIcon className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">List</span>
+                </Link>
+                <Link
+                  href={`/search?${new URLSearchParams({ ...params, view: "map" }).toString()}`}
+                  className={`flex items-center gap-1 rounded-lg px-2.5 sm:px-3 py-1.5 text-xs font-semibold transition-all ${
+                    viewMode === "map"
+                      ? "bg-white text-slate-900 shadow-xs dark:bg-slate-700 dark:text-white"
+                      : "text-slate-500 hover:text-slate-900 dark:text-slate-400 dark:hover:text-white"
+                  }`}
+                  aria-label="Map View"
+                >
+                  <MapIcon className="h-3.5 w-3.5" />
+                  <span className="hidden sm:inline">Map</span>
+                </Link>
+              </div>
             </div>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+      <div className="max-w-7xl mx-auto px-3 sm:px-6 lg:px-8 py-5 sm:py-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 sm:gap-8">
           
-          {/* SIDEBAR FILTERS (Desktop) */}
+          {/* SIDEBAR FILTERS (Desktop Only) */}
           <aside className="hidden lg:block lg:col-span-1 space-y-6">
-            <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
+            <div className="rounded-2xl border border-slate-200 bg-white p-5 dark:border-slate-800 dark:bg-slate-900 shadow-xs sticky top-36">
               
               <div className="flex items-center justify-between pb-4 border-b border-slate-100 dark:border-slate-800">
                 <div className="flex items-center gap-2 font-bold text-slate-900 dark:text-white text-sm">
@@ -172,7 +178,6 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                   State (All 36 + FCT)
                 </label>
                 <form action="/search" method="GET">
-                  {/* Keep other params */}
                   {query && <input type="hidden" name="q" value={query} />}
                   {selectedCategory !== "all" && <input type="hidden" name="category" value={selectedCategory} />}
                   
@@ -189,7 +194,6 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                     ))}
                   </select>
 
-                  {/* LGA dropdown if state selected */}
                   {availableLgas.length > 0 && (
                     <div className="mt-3">
                       <label className="text-[10px] font-semibold text-slate-500 block mb-1">
@@ -286,7 +290,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                   }`}
                 >
                   <ShieldCheck className="h-4 w-4 text-[#0B6E4F]" />
-                  <span>Verified Listings Only</span>
+                  <span>Verified Only</span>
                 </Link>
               </div>
 
@@ -297,35 +301,35 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
           <main className="lg:col-span-3">
             
             {/* Sort Bar */}
-            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-3 mb-6 bg-white dark:bg-slate-900 p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs">
-              <div className="text-sm font-medium text-slate-600 dark:text-slate-400">
+            <div className="flex flex-col sm:flex-row items-start sm:items-center justify-between gap-2.5 sm:gap-3 mb-5 bg-white dark:bg-slate-900 p-3 sm:p-4 rounded-2xl border border-slate-200 dark:border-slate-800 shadow-xs">
+              <div className="text-xs sm:text-sm font-medium text-slate-600 dark:text-slate-400">
                 {query ? (
                   <span>
                     Results for &ldquo;<strong className="text-slate-900 dark:text-white">{query}</strong>&rdquo;
                   </span>
                 ) : (
-                  <span>Showing all Nigerian business listings</span>
+                  <span>All Nigerian business listings</span>
                 )}
                 {selectedState !== "all" && (
-                  <span className="ml-1 inline-flex items-center gap-1 text-xs text-[#0B6E4F] font-bold">
+                  <span className="ml-1 inline-flex items-center gap-1 text-[11px] sm:text-xs text-[#0B6E4F] font-bold">
                     in {selectedState}
                   </span>
                 )}
               </div>
 
               {/* Sort By Dropdown */}
-              <div className="flex items-center gap-2 text-xs">
-                <span className="text-slate-400 font-medium">Sort by:</span>
+              <div className="flex items-center gap-1.5 text-xs w-full sm:w-auto justify-between sm:justify-start">
+                <span className="text-slate-400 font-medium text-[11px]">Sort:</span>
                 <div className="flex items-center gap-1">
                   {[
-                    { label: "Recommended", val: "relevance" },
-                    { label: "Highest Rated", val: "rating" },
-                    { label: "Most Reviews", val: "reviews" },
+                    { label: "Top", val: "relevance" },
+                    { label: "Rating", val: "rating" },
+                    { label: "Reviews", val: "reviews" },
                   ].map((s) => (
                     <Link
                       key={s.val}
                       href={`/search?${new URLSearchParams({ ...params, sortBy: s.val, page: "1" }).toString()}`}
-                      className={`px-3 py-1.5 rounded-lg font-medium transition-colors ${
+                      className={`px-2.5 sm:px-3 py-1 sm:py-1.5 rounded-lg text-xs font-semibold transition-colors ${
                         sortBy === s.val
                           ? "bg-slate-900 text-white dark:bg-white dark:text-slate-900"
                           : "text-slate-600 hover:bg-slate-100 dark:text-slate-400 dark:hover:bg-slate-800"
@@ -340,17 +344,16 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
             {/* MAP VIEW */}
             {viewMode === "map" && (
-              <div className="mb-6 rounded-2xl border border-slate-200 bg-white p-4 dark:border-slate-800 dark:bg-slate-900">
-                <div className="flex items-center justify-between mb-3 text-xs text-slate-500">
+              <div className="mb-5 sm:mb-6 rounded-2xl border border-slate-200 bg-white p-3 sm:p-4 dark:border-slate-800 dark:bg-slate-900">
+                <div className="flex items-center justify-between mb-2 text-xs text-slate-500">
                   <span className="font-semibold text-slate-800 dark:text-white flex items-center gap-1.5">
                     <MapPin className="h-4 w-4 text-[#0B6E4F]" />
-                    Interactive Directory Map (OpenStreetMap Nigeria)
+                    Interactive Map
                   </span>
                   <span>{businesses.length} pins loaded</span>
                 </div>
                 
-                {/* Visual OpenStreetMap container */}
-                <div className="relative h-72 w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800 flex items-center justify-center">
+                <div className="relative h-64 sm:h-80 w-full rounded-xl overflow-hidden bg-slate-100 dark:bg-slate-800">
                   <iframe
                     title="Nigeria Directory Map"
                     width="100%"
@@ -360,7 +363,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                     src={`https://www.openstreetmap.org/export/embed.html?bbox=2.6,4.2,14.6,13.8&layer=mapnik`}
                     className="opacity-80"
                   />
-                  <div className="absolute bottom-3 left-3 rounded-lg bg-white/95 px-3 py-1.5 text-xs font-bold text-slate-900 shadow-md backdrop-blur-md dark:bg-slate-900/95 dark:text-white">
+                  <div className="absolute bottom-2.5 left-2.5 rounded-lg bg-white/95 px-2.5 py-1 text-[11px] font-bold text-slate-900 shadow-md backdrop-blur-md dark:bg-slate-900/95 dark:text-white">
                     📍 Showing businesses across Nigeria
                   </div>
                 </div>
@@ -369,27 +372,27 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
             {/* RESULTS GRID / LIST */}
             {businesses.length > 0 ? (
-              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-6">
+              <div className="grid grid-cols-1 sm:grid-cols-2 xl:grid-cols-3 gap-4 sm:gap-6">
                 {businesses.map((biz) => (
                   <BusinessCard key={biz.id} business={biz} />
                 ))}
               </div>
             ) : (
               /* EMPTY STATE */
-              <div className="text-center py-16 px-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
-                <div className="flex h-16 w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400 mx-auto dark:bg-slate-800">
-                  <SearchIcon className="h-8 w-8" />
+              <div className="text-center py-12 sm:py-16 px-4 bg-white dark:bg-slate-900 rounded-2xl border border-slate-200 dark:border-slate-800">
+                <div className="flex h-14 w-14 sm:h-16 sm:w-16 items-center justify-center rounded-full bg-slate-100 text-slate-400 mx-auto dark:bg-slate-800">
+                  <SearchIcon className="h-7 w-7 sm:h-8 sm:w-8" />
                 </div>
-                <h3 className="mt-4 text-lg font-bold text-slate-900 dark:text-white">
+                <h3 className="mt-3 text-base sm:text-lg font-bold text-slate-900 dark:text-white">
                   No businesses found
                 </h3>
-                <p className="mt-1 text-sm text-slate-500 max-w-md mx-auto dark:text-slate-400">
-                  We couldn&apos;t find any businesses matching your exact search filters. Try broadening your location or resetting filters.
+                <p className="mt-1 text-xs sm:text-sm text-slate-500 max-w-md mx-auto dark:text-slate-400">
+                  Try broadening your location, removing category filters, or resetting filters.
                 </p>
-                <div className="mt-6">
+                <div className="mt-5">
                   <Link
                     href="/search"
-                    className="inline-flex items-center gap-2 rounded-xl bg-[#0B6E4F] px-5 py-2.5 text-xs font-semibold text-white hover:bg-[#08563D] transition-colors"
+                    className="inline-flex items-center gap-2 rounded-xl bg-[#0B6E4F] px-4 py-2.5 text-xs font-semibold text-white hover:bg-[#08563D] transition-colors"
                   >
                     <RotateCcw className="h-4 w-4" />
                     <span>Reset All Filters</span>
@@ -400,7 +403,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
 
             {/* PAGINATION */}
             {totalPages > 1 && (
-              <div className="mt-10 flex items-center justify-center gap-2">
+              <div className="mt-8 sm:mt-10 flex items-center justify-center gap-1.5 sm:gap-2">
                 {Array.from({ length: totalPages }).map((_, idx) => {
                   const pNum = idx + 1;
                   const isCurrent = pNum === currentPage;
@@ -408,7 +411,7 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
                     <Link
                       key={pNum}
                       href={`/search?${new URLSearchParams({ ...params, page: pNum.toString() }).toString()}`}
-                      className={`h-9 w-9 flex items-center justify-center rounded-lg text-xs font-bold transition-all ${
+                      className={`h-8 w-8 sm:h-9 sm:w-9 flex items-center justify-center rounded-xl text-xs font-bold transition-all ${
                         isCurrent
                           ? "bg-[#0B6E4F] text-white shadow-sm"
                           : "border border-slate-200 bg-white text-slate-700 hover:bg-slate-50 dark:border-slate-800 dark:bg-slate-900 dark:text-slate-300"
@@ -427,4 +430,3 @@ export default async function SearchPage({ searchParams }: SearchPageProps) {
     </div>
   );
 }
-

@@ -44,3 +44,4 @@ test("Price Tier definitions", () => {
   assert.equal(PRICE_TIERS.EXPENSIVE.label, "₦₦₦");
   assert.equal(PRICE_TIERS.LUXURY.label, "₦₦₦₦");
 });
+

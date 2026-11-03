@@ -88,32 +88,32 @@ export default function AddBusinessPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#F8FAFC] py-12 px-4 sm:px-6 lg:px-8 dark:bg-slate-950 pb-24">
+    <div className="min-h-screen bg-[#F8FAFC] py-8 sm:py-12 px-3 sm:px-6 lg:px-8 dark:bg-slate-950 pb-28 md:pb-24">
       <div className="max-w-3xl mx-auto">
         
         {/* Header */}
-        <div className="text-center mb-8">
-          <div className="inline-flex items-center gap-1.5 rounded-full bg-[#E8F5EE] px-3 py-1 text-xs font-semibold text-[#0B6E4F] dark:bg-slate-800 dark:text-[#10B981] mb-2">
+        <div className="text-center mb-6 sm:mb-8">
+          <div className="inline-flex items-center gap-1.5 rounded-full bg-[#E8F5EE] px-3 py-1 text-[11px] sm:text-xs font-semibold text-[#0B6E4F] dark:bg-slate-800 dark:text-[#10B981] mb-2">
             <Sparkles className="h-3.5 w-3.5" />
             <span>Free Listing for Nigerian Businesses</span>
           </div>
-          <h1 className="text-2xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
+          <h1 className="text-xl sm:text-4xl font-black text-slate-900 dark:text-white tracking-tight">
             Add Your Business to Najiavestors
           </h1>
-          <p className="mt-2 text-sm text-slate-500 max-w-lg mx-auto dark:text-slate-400">
-            Reach thousands of daily customers, collect authentic reviews, and receive direct inquiries via WhatsApp.
+          <p className="mt-1.5 text-xs sm:text-sm text-slate-500 max-w-lg mx-auto dark:text-slate-400">
+            Reach thousands of daily patrons, collect authentic reviews, and receive direct inquiries via WhatsApp.
           </p>
 
           {/* Stepper Header */}
-          <div className="mt-8 flex items-center justify-center gap-2 sm:gap-4">
+          <div className="mt-6 sm:mt-8 flex items-center justify-center gap-2 sm:gap-4">
             {[
               { num: 1, label: "Basic Info" },
               { num: 2, label: "Location" },
-              { num: 3, label: "Contact & Publish" },
+              { num: 3, label: "Contact" },
             ].map((s) => (
-              <div key={s.num} className="flex items-center gap-2">
+              <div key={s.num} className="flex items-center gap-1.5 sm:gap-2">
                 <div
-                  className={`flex h-8 w-8 items-center justify-center rounded-full text-xs font-bold transition-colors ${
+                  className={`flex h-7 w-7 sm:h-8 sm:w-8 items-center justify-center rounded-full text-xs font-bold transition-colors ${
                     step >= s.num
                       ? "bg-[#0B6E4F] text-white"
                       : "bg-slate-200 text-slate-600 dark:bg-slate-800 dark:text-slate-400"
@@ -121,10 +121,10 @@ export default function AddBusinessPage() {
                 >
                   {s.num}
                 </div>
-                <span className="hidden sm:inline text-xs font-semibold text-slate-700 dark:text-slate-300">
+                <span className="text-[11px] sm:text-xs font-semibold text-slate-700 dark:text-slate-300">
                   {s.label}
                 </span>
-                {s.num < 3 && <div className="h-0.5 w-6 bg-slate-200 dark:bg-slate-800 hidden sm:block" />}
+                {s.num < 3 && <div className="h-0.5 w-4 sm:w-6 bg-slate-200 dark:bg-slate-800" />}
               </div>
             ))}
           </div>
@@ -132,20 +132,20 @@ export default function AddBusinessPage() {
 
         {/* Error Alert */}
         {error && (
-          <div className="mb-6 flex items-center gap-2 rounded-xl bg-red-50 p-4 text-xs text-red-700 dark:bg-red-950/50 dark:text-red-300">
+          <div className="mb-5 flex items-center gap-2 rounded-xl bg-red-50 p-3.5 text-xs text-red-700 dark:bg-red-950/50 dark:text-red-300">
             <AlertCircle className="h-4 w-4 flex-shrink-0" />
             <span>{error}</span>
           </div>
         )}
 
         {/* Multi-step Form Card */}
-        <div className="rounded-2xl border border-slate-200 bg-white p-6 sm:p-8 dark:border-slate-800 dark:bg-slate-900 shadow-sm">
+        <div className="rounded-2xl border border-slate-200 bg-white p-4 sm:p-8 dark:border-slate-800 dark:bg-slate-900 shadow-xs">
           <form onSubmit={handleSubmit}>
             
             {/* STEP 1: Basic Information */}
             {step === 1 && (
-              <div className="space-y-5">
-                <h2 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 pb-3 dark:border-slate-800">
+              <div className="space-y-4 sm:space-y-5">
+                <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 pb-2.5 dark:border-slate-800">
                   Step 1: Business Details
                 </h2>
 
@@ -159,11 +159,11 @@ export default function AddBusinessPage() {
                     value={formData.name}
                     onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                     placeholder="e.g. Bukka Hut Lekki"
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                   />
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       Primary Category *
@@ -171,7 +171,7 @@ export default function AddBusinessPage() {
                     <select
                       value={formData.categorySlug}
                       onChange={(e) => handleCategoryChange(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                     >
                       {CATEGORIES_LIST.map((c) => (
                         <option key={c.slug} value={c.slug}>
@@ -188,7 +188,7 @@ export default function AddBusinessPage() {
                     <select
                       value={formData.priceTier}
                       onChange={(e) => setFormData({ ...formData, priceTier: e.target.value as any })}
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                     >
                       {Object.entries(PRICE_TIERS).map(([key, val]) => (
                         <option key={key} value={key}>
@@ -209,7 +209,7 @@ export default function AddBusinessPage() {
                     value={formData.tagline}
                     onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
                     placeholder="e.g. Authentic charcoal-grilled Nigerian suya & chilled drinks"
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                   />
                 </div>
 
@@ -223,11 +223,11 @@ export default function AddBusinessPage() {
                     value={formData.description}
                     onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                     placeholder="Tell patrons about your services, signature dishes or products, atmosphere, and what makes your establishment unique."
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 p-3 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                   />
                 </div>
 
-                <div className="pt-4 flex justify-end">
+                <div className="pt-3 flex justify-end">
                   <button
                     type="button"
                     onClick={() => {
@@ -238,7 +238,7 @@ export default function AddBusinessPage() {
                       setError(null);
                       setStep(2);
                     }}
-                    className="btn-press inline-flex items-center gap-2 rounded-xl bg-[#0B6E4F] px-6 py-3 text-xs font-bold text-white shadow-sm hover:bg-[#08563D]"
+                    className="btn-press w-full sm:w-auto inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B6E4F] px-6 py-3 text-xs font-bold text-white shadow-sm hover:bg-[#08563D]"
                   >
                     <span>Next: Location</span>
                     <ArrowRight className="h-4 w-4" />
@@ -249,12 +249,12 @@ export default function AddBusinessPage() {
 
             {/* STEP 2: Location */}
             {step === 2 && (
-              <div className="space-y-5">
-                <h2 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 pb-3 dark:border-slate-800">
+              <div className="space-y-4 sm:space-y-5">
+                <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 pb-2.5 dark:border-slate-800">
                   Step 2: Nigerian Location &amp; Address
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       State (All 36 + FCT) *
@@ -262,7 +262,7 @@ export default function AddBusinessPage() {
                     <select
                       value={formData.state}
                       onChange={(e) => handleStateChange(e.target.value)}
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                     >
                       {stateNames.map((st) => (
                         <option key={st} value={st}>
@@ -279,7 +279,7 @@ export default function AddBusinessPage() {
                     <select
                       value={formData.lga}
                       onChange={(e) => setFormData({ ...formData, lga: e.target.value })}
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                     >
                       {availableLgas.map((lga) => (
                         <option key={lga} value={lga}>
@@ -290,7 +290,7 @@ export default function AddBusinessPage() {
                   </div>
                 </div>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
                       City / Area *
@@ -301,7 +301,7 @@ export default function AddBusinessPage() {
                       value={formData.city}
                       onChange={(e) => setFormData({ ...formData, city: e.target.value })}
                       placeholder="e.g. Victoria Island, Bodija, Wuse 2"
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                     />
                   </div>
 
@@ -315,16 +315,16 @@ export default function AddBusinessPage() {
                       value={formData.address}
                       onChange={(e) => setFormData({ ...formData, address: e.target.value })}
                       placeholder="e.g. 24 Admiralty Way, Lekki Phase 1"
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                     />
                   </div>
                 </div>
 
-                <div className="pt-4 flex items-center justify-between">
+                <div className="pt-3 flex items-center justify-between gap-3">
                   <button
                     type="button"
                     onClick={() => setStep(1)}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-400"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 p-2 dark:text-slate-400"
                   >
                     <ArrowLeft className="h-4 w-4" />
                     <span>Back</span>
@@ -340,7 +340,7 @@ export default function AddBusinessPage() {
                       setError(null);
                       setStep(3);
                     }}
-                    className="btn-press inline-flex items-center gap-2 rounded-xl bg-[#0B6E4F] px-6 py-3 text-xs font-bold text-white shadow-sm hover:bg-[#08563D]"
+                    className="btn-press flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B6E4F] px-6 py-3 text-xs font-bold text-white shadow-sm hover:bg-[#08563D]"
                   >
                     <span>Next: Contact Info</span>
                     <ArrowRight className="h-4 w-4" />
@@ -351,23 +351,23 @@ export default function AddBusinessPage() {
 
             {/* STEP 3: Contact & Submit */}
             {step === 3 && (
-              <div className="space-y-5">
-                <h2 className="text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 pb-3 dark:border-slate-800">
+              <div className="space-y-4 sm:space-y-5">
+                <h2 className="text-base sm:text-lg font-bold text-slate-900 dark:text-white border-b border-slate-100 pb-2.5 dark:border-slate-800">
                   Step 3: Contact Channels &amp; Photos
                 </h2>
 
-                <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+                <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 sm:gap-4">
                   <div>
                     <label className="block text-xs font-semibold text-slate-700 dark:text-slate-300 mb-1">
-                      Business Phone Number (+234) *
+                      Phone Number (+234) *
                     </label>
                     <input
                       type="tel"
                       required
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="e.g. 08031234567 or +2348031234567"
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                      placeholder="e.g. 08031234567 or +234..."
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                     />
                   </div>
 
@@ -380,8 +380,8 @@ export default function AddBusinessPage() {
                       required
                       value={formData.whatsapp}
                       onChange={(e) => setFormData({ ...formData, whatsapp: e.target.value })}
-                      placeholder="e.g. 08031234567 (for direct chat)"
-                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                      placeholder="e.g. 08031234567"
+                      className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                     />
                   </div>
                 </div>
@@ -395,7 +395,7 @@ export default function AddBusinessPage() {
                     value={formData.website}
                     onChange={(e) => setFormData({ ...formData, website: e.target.value })}
                     placeholder="https://yourbusiness.ng"
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                   />
                 </div>
 
@@ -408,15 +408,15 @@ export default function AddBusinessPage() {
                     value={formData.photoUrl}
                     onChange={(e) => setFormData({ ...formData, photoUrl: e.target.value })}
                     placeholder="https://images.unsplash.com/..."
-                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-4 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
+                    className="w-full rounded-xl border border-slate-200 bg-slate-50 px-3.5 py-2.5 text-sm text-slate-900 focus:outline-none dark:border-slate-700 dark:bg-slate-800 dark:text-white"
                   />
                 </div>
 
-                <div className="pt-4 flex items-center justify-between">
+                <div className="pt-3 flex items-center justify-between gap-3">
                   <button
                     type="button"
                     onClick={() => setStep(2)}
-                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 dark:text-slate-400"
+                    className="inline-flex items-center gap-1.5 text-xs font-semibold text-slate-600 hover:text-slate-900 p-2 dark:text-slate-400"
                   >
                     <ArrowLeft className="h-4 w-4" />
                     <span>Back</span>
@@ -425,10 +425,10 @@ export default function AddBusinessPage() {
                   <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="btn-press inline-flex items-center gap-2 rounded-xl bg-[#0B6E4F] px-8 py-3 text-xs font-bold text-white shadow-md hover:bg-[#08563D] disabled:opacity-50 transition-colors"
+                    className="btn-press flex-1 sm:flex-initial inline-flex items-center justify-center gap-2 rounded-xl bg-[#0B6E4F] px-6 sm:px-8 py-3 text-xs font-bold text-white shadow-md hover:bg-[#08563D] disabled:opacity-50 transition-colors"
                   >
                     <CheckCircle2 className="h-4 w-4" />
-                    <span>{isSubmitting ? "Publishing Listing..." : "Publish Business (Free)"}</span>
+                    <span>{isSubmitting ? "Publishing..." : "Publish Listing"}</span>
                   </button>
                 </div>
               </div>
@@ -441,4 +441,3 @@ export default function AddBusinessPage() {
     </div>
   );
 }
-
